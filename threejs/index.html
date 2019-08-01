@@ -12,59 +12,54 @@
         <script src="js/GLTFLoader.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script>
-            var renderer,
-                scene,
-                camera,
-                myCanvas = document.getElementById('myCanvas');
-            //RENDERER
-            renderer = new THREE.WebGLRenderer({
-              canvas: myCanvas, 
-              antialias: true
-            });
-            renderer.setClearColor(0x000000);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            //CAMERA
-            camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000 );
-            controls.update();
-            //SCENE
-            scene = new THREE.Scene();
-            //LIGHTS
-            var light = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(light);
-            var light2 = new THREE.PointLight(0xffffff, 0.5);
-            scene.add(light2);
-            
-            // CONTROLS
-            controls = new THREE.OrbitControls( camera, renderer.domElement );
+              let scene, camera, renderer;
+              function init() {
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xdddddd);
 
-            var loader = new THREE.GLTFLoader();
-            loader.load('models/person_01.gltf', handle_load);
-            var mesh;
-            function handle_load(gltf) {
-                console.log(gltf);
-                mesh = gltf.scene;
-                console.log(mesh.children[0]);
-                mesh.children[0].material = new THREE.MeshLambertMaterial();
-                scene.add( mesh );
-                mesh.position.z = -10;
-            }
-            //RENDER LOOP
-            render();
-            var delta = 0;
-            var prevTime = Date.now();
-            function render() {
-                delta += 0.1;
-                if (mesh) {
-
-                    mesh.rotation.y += 0.01;
-                    //animation mesh
-                    // mesh.morphTargetInfluences[ 0 ] = Math.sin(delta) * 20.0;
-                }
-                controls.update();
-                renderer.render(scene, camera);
-                requestAnimationFrame(render);
-            }
-            </script>
+                camera = new THREE.PerspectiveCamera(40,window.innerWidth/window.innerHeight,1,5000);
+                camera.rotation.y = 45/180*Math.PI;
+                camera.position.x = 800;
+                camera.position.y = 100;
+                camera.position.z = 1000;
+                
+                controls = new THREE.OrbitControls(camera);
+                controls.addEventListener('change', renderer);
+                
+                hlight = new THREE.AmbientLight (0x404040,100);
+                scene.add(hlight);
+                directionalLight = new THREE.DirectionalLight(0xffffff,100);
+                directionalLight.position.set(0,1,0);
+                directionalLight.castShadow = true;
+                scene.add(directionalLight);
+                light = new THREE.PointLight(0xc4c4c4,10);
+                light.position.set(0,300,500);
+                scene.add(light);
+                light2 = new THREE.PointLight(0xc4c4c4,10);
+                light2.position.set(500,100,0);
+                scene.add(light2);
+                light3 = new THREE.PointLight(0xc4c4c4,10);
+                light3.position.set(0,100,-500);
+                scene.add(light3);
+                light4 = new THREE.PointLight(0xc4c4c4,10);
+                light4.position.set(-500,300,500);
+                scene.add(light4);
+                renderer = new THREE.WebGLRenderer({antialias:true});
+                renderer.setSize(window.innerWidth,window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+                let loader = new THREE.GLTFLoader();
+                loader.load('models/person_01.gltf', function(gltf){
+                  car = gltf.scene.children[0];
+                  car.scale.set(0.5,0.5,0.5);
+                  scene.add(gltf.scene);
+                  animate();
+                });
+              }
+              function animate() {
+                renderer.render(scene,camera);
+                requestAnimationFrame(animate);
+              }
+              init();
+    </script>
     </body>
 </html>
