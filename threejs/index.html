@@ -32,6 +32,9 @@
             scene.add(light);
             var light2 = new THREE.PointLight(0xffffff, 0.5);
             scene.add(light2);
+            
+            // CONTROLS
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
 
             var loader = new THREE.GLTFLoader();
             loader.load('models/person_01.gltf', handle_load);
