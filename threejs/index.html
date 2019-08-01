@@ -26,6 +26,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             //CAMERA
             camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000 );
+            controls.update();
             //SCENE
             scene = new THREE.Scene();
             //LIGHTS
@@ -35,7 +36,7 @@
             scene.add(light2);
             
             // CONTROLS
-	controls = new THREE.OrbitControls( camera, renderer.domElement );
+            controls = new THREE.OrbitControls( camera, renderer.domElement );
 
             var loader = new THREE.GLTFLoader();
             loader.load('models/person_01.gltf', handle_load);
@@ -60,6 +61,7 @@
                     //animation mesh
                     // mesh.morphTargetInfluences[ 0 ] = Math.sin(delta) * 20.0;
                 }
+                controls.update();
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
             }
