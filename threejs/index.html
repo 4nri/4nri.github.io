@@ -16,6 +16,9 @@
       var renderer = new THREE.WebGLRenderer();
       var controls = new THREE.OrbitControls( camera, renderer.domElement );
       var loader = new THREE.GLTFLoader();
+      var light = new THREE.AmbientLight( 0x404040 );
+
+      scene.add( light );
 
       loader.load(
 	      'models/person_01.gltf',
