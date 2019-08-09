@@ -40,15 +40,15 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
-				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 20 );
-				camera.position.set( - 1.8, 0.9, 2.7 );
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 400 );
+				camera.position.set( - 10, 5, 10 );
 
 				scene = new THREE.Scene();
 
 				new RGBELoader()
 					.setDataType( THREE.UnsignedByteType )
 					.setPath( './textures/' )
-					.load( 'pedestrian_overpass_2k.hdr', function ( texture ) {
+					.load( 'test_01.hdr', function ( texture ) {
 
 						var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
 						cubeGenerator.update( renderer );
@@ -64,7 +64,7 @@
 						// model
 
 						var loader = new GLTFLoader().setPath( './models/' );
-						loader.load( 'cricket_05.gltf', function ( gltf ) {
+						loader.load( 'cricket_08.gltf', function ( gltf ) {
 
 							gltf.scene.traverse( function ( child ) {
 
@@ -83,7 +83,7 @@
 						pmremGenerator.dispose();
 						pmremCubeUVPacker.dispose();
 
-						scene.background = cubeGenerator.renderTarget;
+						// scene.background = cubeGenerator.renderTarget;
 
 					} );
 
