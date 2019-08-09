@@ -2,35 +2,21 @@
  * @author Nikos M. / https://github.com/foo123/
  */
 
-import {
-	DataTextureLoader,
-	DefaultLoadingManager,
-	FloatType,
-	HalfFloatType,
-	LinearEncoding,
-	LinearFilter,
-	NearestFilter,
-	RGBEEncoding,
-	RGBEFormat,
-	RGBFormat,
-	UnsignedByteType
-} from "../js/three.module.js";
-
 // https://github.com/mrdoob/three.js/issues/5552
 // http://en.wikipedia.org/wiki/RGBE_image_format
 
-var RGBELoader = function ( manager ) {
+THREE.RGBELoader = function ( manager ) {
 
-	this.manager = ( manager !== undefined ) ? manager : DefaultLoadingManager;
-	this.type = UnsignedByteType;
+	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+	this.type = THREE.UnsignedByteType;
 
 };
 
-// extend DataTextureLoader
-RGBELoader.prototype = Object.create( DataTextureLoader.prototype );
+// extend THREE.DataTextureLoader
+THREE.RGBELoader.prototype = Object.create( THREE.DataTextureLoader.prototype );
 
 // adapted from http://www.graphics.cornell.edu/~bjw/rgbe.html
-RGBELoader.prototype._parser = function ( buffer ) {
+THREE.RGBELoader.prototype._parser = function ( buffer ) {
 
 	var
 		/* return codes for rgbe routines */
@@ -46,14 +32,14 @@ RGBELoader.prototype._parser = function ( buffer ) {
 
 			switch ( rgbe_error_code ) {
 
-				case rgbe_read_error: console.error( "RGBELoader Read Error: " + ( msg || '' ) );
+				case rgbe_read_error: console.error( "THREE.RGBELoader Read Error: " + ( msg || '' ) );
 					break;
-				case rgbe_write_error: console.error( "RGBELoader Write Error: " + ( msg || '' ) );
+				case rgbe_write_error: console.error( "THREE.RGBELoader Write Error: " + ( msg || '' ) );
 					break;
-				case rgbe_format_error: console.error( "RGBELoader Bad File Format: " + ( msg || '' ) );
+				case rgbe_format_error: console.error( "THREE.RGBELoader Bad File Format: " + ( msg || '' ) );
 					break;
 				default:
-				case rgbe_memory_error: console.error( "RGBELoader: Error: " + ( msg || '' ) );
+				case rgbe_memory_error: console.error( "THREE.RGBELoader: Error: " + ( msg || '' ) );
 
 			}
 			return RGBE_RETURN_FAILURE;
@@ -420,14 +406,14 @@ RGBELoader.prototype._parser = function ( buffer ) {
 
 			switch ( this.type ) {
 
-				case UnsignedByteType:
+				case THREE.UnsignedByteType:
 
 					var data = image_rgba_data;
-					var format = RGBEFormat; // handled as THREE.RGBAFormat in shaders
-					var type = UnsignedByteType;
+					var format = THREE.RGBEFormat; // handled as THREE.RGBAFormat in shaders
+					var type = THREE.UnsignedByteType;
 					break;
 
-				case FloatType:
+				case THREE.FloatType:
 
 					var numElements = ( image_rgba_data.length / 4 ) * 3;
 					var floatArray = new Float32Array( numElements );
@@ -439,11 +425,11 @@ RGBELoader.prototype._parser = function ( buffer ) {
 					}
 
 					var data = floatArray;
-					var format = RGBFormat;
-					var type = FloatType;
+					var format = THREE.RGBFormat;
+					var type = THREE.FloatType;
 					break;
 
-				case HalfFloatType:
+				case THREE.HalfFloatType:
 
 					var numElements = ( image_rgba_data.length / 4 ) * 3;
 					var halfArray = new Uint16Array( numElements );
@@ -455,8 +441,8 @@ RGBELoader.prototype._parser = function ( buffer ) {
 					}
 
 					var data = halfArray;
-					var format = RGBFormat;
-					var type = HalfFloatType;
+					var format = THREE.RGBFormat;
+					var type = THREE.HalfFloatType;
 					break;
 
 				default:
@@ -484,14 +470,14 @@ RGBELoader.prototype._parser = function ( buffer ) {
 
 };
 
-RGBELoader.prototype.setDataType = function ( value ) {
+THREE.RGBELoader.prototype.setDataType = function ( value ) {
 
 	this.type = value;
 	return this;
 
 };
 
-RGBELoader.prototype.setType = function ( value ) {
+THREE.RGBELoader.prototype.setType = function ( value ) {
 
 	console.warn( 'THREE.RGBELoader: .setType() has been renamed to .setDataType().' );
 
@@ -499,35 +485,35 @@ RGBELoader.prototype.setType = function ( value ) {
 
 };
 
-RGBELoader.prototype.load = function ( url, onLoad, onProgress, onError ) {
+THREE.RGBELoader.prototype.load = function ( url, onLoad, onProgress, onError ) {
 
 	function onLoadCallback( texture, texData ) {
 
 		switch ( texture.type ) {
 
-			case UnsignedByteType:
+			case THREE.UnsignedByteType:
 
-				texture.encoding = RGBEEncoding;
-				texture.minFilter = NearestFilter;
-				texture.magFilter = NearestFilter;
+				texture.encoding = THREE.RGBEEncoding;
+				texture.minFilter = THREE.NearestFilter;
+				texture.magFilter = THREE.NearestFilter;
 				texture.generateMipmaps = false;
 				texture.flipY = true;
 				break;
 
-			case FloatType:
+			case THREE.FloatType:
 
-				texture.encoding = LinearEncoding;
-				texture.minFilter = LinearFilter;
-				texture.magFilter = LinearFilter;
+				texture.encoding = THREE.LinearEncoding;
+				texture.minFilter = THREE.LinearFilter;
+				texture.magFilter = THREE.LinearFilter;
 				texture.generateMipmaps = false;
 				texture.flipY = true;
 				break;
 
-			case HalfFloatType:
+			case THREE.HalfFloatType:
 
-				texture.encoding = LinearEncoding;
-				texture.minFilter = LinearFilter;
-				texture.magFilter = LinearFilter;
+				texture.encoding = THREE.LinearEncoding;
+				texture.minFilter = THREE.LinearFilter;
+				texture.magFilter = THREE.LinearFilter;
 				texture.generateMipmaps = false;
 				texture.flipY = true;
 				break;
@@ -538,8 +524,6 @@ RGBELoader.prototype.load = function ( url, onLoad, onProgress, onError ) {
 
 	}
 
-	return DataTextureLoader.prototype.load.call( this, url, onLoadCallback, onProgress, onError );
+	return THREE.DataTextureLoader.prototype.load.call( this, url, onLoadCallback, onProgress, onError );
 
 };
-
-export { RGBELoader };
