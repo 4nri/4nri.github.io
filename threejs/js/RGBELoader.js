@@ -14,7 +14,7 @@ import {
 	RGBEFormat,
 	RGBFormat,
 	UnsignedByteType
-} from "https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.module.js";
+} from 'https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.module.js';
 
 // https://github.com/mrdoob/three.js/issues/5552
 // http://en.wikipedia.org/wiki/RGBE_image_format
