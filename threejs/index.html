@@ -10,6 +10,10 @@
     <script src="js/three.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="js/GLTFLoader.js"></script>
+    <script src="js/RGBELoader.js"></script>
+    <script src="js/EquirectangularToCubeGenerator.js"></script>
+    <script src="js/PMREMGenerator.js"></script>
+    <script src="js/PMREMCubeUVPacker.js"></script>
 		<script>
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -17,6 +21,21 @@
       var controls = new THREE.OrbitControls( camera, renderer.domElement );
       var loader = new THREE.GLTFLoader();
       var light = new THREE.AmbientLight( 0x404040 );
+      var hdri = new THREE.RGBELoader();
+
+      		hdri.setDataType( THREE.UnsignedByteType );
+          hdri.load( 'textures/pedestrian_overpass_2k.hdr', 
+            function ( texture ) {
+            
+              var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
+						  cubeGenerator.update( renderer );
+						  var pmremGenerator = new PMREMGenerator( cubeGenerator.renderTarget.texture );
+						  pmremGenerator.update( renderer );
+						  var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
+						  pmremCubeUVPacker.update( renderer );
+              var envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;}
+          );
+
 
       scene.add( light );
 
