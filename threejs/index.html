@@ -21,10 +21,10 @@
       var controls = new THREE.OrbitControls( camera, renderer.domElement );
       var loader = new THREE.GLTFLoader();
       var light = new THREE.AmbientLight( 0x404040 );
-      var hdri = new THREE.RGBELoader();
+      var RGBELoader = new THREE.RGBELoader();
 
-      		hdri.setDataType( THREE.UnsignedByteType );
-          hdri.load( 'textures/pedestrian_overpass_2k.hdr', 
+      RGBELoader.setDataType( THREE.UnsignedByteType );
+      RGBELoader.load( 'textures/pedestrian_overpass_2k.hdr', 
             function ( texture ) {
             
               var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
