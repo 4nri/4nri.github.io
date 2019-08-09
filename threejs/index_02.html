@@ -30,10 +30,11 @@
 			import { PMREMCubeUVPacker } from './js/PMREMCubeUVPacker.js';
 
 			var container, stats, controls;
-			var camera, scene, renderer;
+            var camera, scene, renderer;
+            var loop;
 
-			init();
-			animate();
+			// init();
+			// animate();
 
 			function init() {
 
@@ -114,17 +115,49 @@
 
 			}
 
-			//
+            //
+            
+            function lerp(ratio, start, end) {
+	            return (start * (1 - ratio) + end * ratio).toFixed(20)
+            }
 
-			function animate() {
+            let onMouseMove = function( event ) {
 
-				requestAnimationFrame( animate );
+                mouse.x = ( event.pageX / document.documentElement.clientWidth) * 2 - 1;
+                mouse.y = - ( event.pageY / document.documentElement.clientHeight ) * 2 + 1;
 
-				renderer.render( scene, camera );
+                // mesh.rotation.y = mouse.x * 4
+                // mesh.rotation.x = -mouse.y * 4
 
-				stats.update();
+            }
 
-			}
+			// function animate() {
+
+			//	requestAnimationFrame( animate );
+
+			//	renderer.render( scene, camera );
+
+			//	stats.update();
+
+            // }
+            
+            let loop = function() {
+	            requestAnimationFrame( loop );
+
+	            dX = lerp(0.05, dX, mouse.x)
+	            dY = lerp(0.05, dY, mouse.y)
+
+	            mesh.rotation.x = -dY * 2;
+	            mesh.rotation.y = dX * 2;
+
+		        renderer.render( scene, camera );
+	        }
+
+	        init();
+
+	        setTimeout(function () {
+		        loop()
+	        }, 100)
 
 		</script>
 
