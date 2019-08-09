@@ -18,16 +18,16 @@
 
 		<script type="module">
 
-			import * as THREE from 'js/three.module.js';
+			import * as THREE from './js/three.module.js';
 
-			import Stats from 'js/stats.module.js';
+			import Stats from './js/stats.module.js';
 
-			import { OrbitControls } from 'js/controls/OrbitControls.js';
-			import { GLTFLoader } from 'js/loaders/GLTFLoader.js';
-			import { RGBELoader } from 'js/loaders/RGBELoader.js';
-			import { EquirectangularToCubeGenerator } from 'js/EquirectangularToCubeGenerator.js';
-			import { PMREMGenerator } from 'js/PMREMGenerator.js';
-			import { PMREMCubeUVPacker } from 'js/PMREMCubeUVPacker.js';
+			import { OrbitControls } from './js/controls/OrbitControls.js';
+			import { GLTFLoader } from './js/loaders/GLTFLoader.js';
+			import { RGBELoader } from './js/loaders/RGBELoader.js';
+			import { EquirectangularToCubeGenerator } from './js/EquirectangularToCubeGenerator.js';
+			import { PMREMGenerator } from './js/PMREMGenerator.js';
+			import { PMREMCubeUVPacker } from './js/PMREMCubeUVPacker.js';
 
 			var container, stats, controls;
 			var camera, scene, renderer;
@@ -47,7 +47,7 @@
 
 				new RGBELoader()
 					.setDataType( THREE.UnsignedByteType )
-					.setPath( 'textures/' )
+					.setPath( './textures/' )
 					.load( 'pedestrian_overpass_2k.hdr', function ( texture ) {
 
 						var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
@@ -63,7 +63,7 @@
 
 						// model
 
-						var loader = new GLTFLoader().setPath( 'models/' );
+						var loader = new GLTFLoader().setPath( './models/' );
 						loader.load( 'person_01.gltf', function ( gltf ) {
 
 							gltf.scene.traverse( function ( child ) {
