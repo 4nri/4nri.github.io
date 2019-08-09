@@ -33,7 +33,13 @@
 						  pmremGenerator.update( renderer );
 						  var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
 						  pmremCubeUVPacker.update( renderer );
-              var envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;}
+              var envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
+              pmremGenerator.dispose();
+						  pmremCubeUVPacker.dispose();
+              
+              scene.background = cubeGenerator.renderTarget;
+            }
+            
           );
 
 
