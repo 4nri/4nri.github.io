@@ -64,13 +64,13 @@
 						// model
 
 						var loader = new GLTFLoader().setPath( './models/' );
-						loader.load( 'cricket_03.gltf', function ( gltf ) {
+						loader.load( 'cricket_01.gltf', function ( gltf ) {
 
 							gltf.scene.traverse( function ( child ) {
 
 								if ( child.isMesh ) {
 
-									child.material.envMap = envMap;
+                                    child.material.envMap = envMap;
 
 								}
 
