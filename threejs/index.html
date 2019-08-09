@@ -21,7 +21,6 @@
       var controls = new THREE.OrbitControls( camera, renderer.domElement );
       var loader = new THREE.GLTFLoader();
       var light = new THREE.AmbientLight( 0x404040 );
-      var RGBELoader = new THREE.RGBELoader();
 
       RGBELoader.setDataType( THREE.UnsignedByteType );
       RGBELoader.load( 'textures/pedestrian_overpass_2k.hdr', 
