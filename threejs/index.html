@@ -22,21 +22,19 @@
       var loader = new THREE.GLTFLoader();
       var light = new THREE.AmbientLight( 0x404040 );
       var rgbeloader = new THREE.RGBELoader();
+      var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
+      var pmremGenerator = new PMREMGenerator( cubeGenerator.renderTarget.texture );
+      var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
+      var envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
 
       rgbeloader.setDataType( THREE.UnsignedByteType );
       rgbeloader.load( 'textures/pedestrian_overpass_2k.hdr', 
             function ( texture ) {
-            
-              var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
 						  cubeGenerator.update( renderer );
-						  var pmremGenerator = new PMREMGenerator( cubeGenerator.renderTarget.texture );
 						  pmremGenerator.update( renderer );
-						  var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
 						  pmremCubeUVPacker.update( renderer );
-              var envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
               pmremGenerator.dispose();
 						  pmremCubeUVPacker.dispose();
-              
               scene.background = cubeGenerator.renderTarget;
             }
             
