@@ -38,7 +38,7 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 2000 );
-				camera.position.set( - 2, 20, 2 );
+				camera.position.set( 0, 0, -20 );
 
 				scene = new THREE.Scene();
 
@@ -73,8 +73,8 @@
 
                             } );
                             
-                            mesh = gltf.scene.children[0];
-                            
+							mesh = gltf.scene.children[0];
+			                            
                         
 							scene.add(mesh);
 							console.log(gltf);
@@ -106,7 +106,7 @@
 				container.appendChild( renderer.domElement );
 
 				controls = new OrbitControls( camera, renderer.domElement );
-				controls.target.set( 0, 4, 0 );
+				controls.target.set( 0, 0, 0 );
 				controls.update();
 
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -147,7 +147,7 @@
 			dX = lerp(0.05, dX, mouse.x)
 			dY = lerp(0.05, dY, mouse.y)
 
-    		mesh.rotation.x = -dY * 2;
+    		mesh.rotation.x = dY * 2;
 			mesh.rotation.y = dX * 2;
 
         	renderer.render( scene, camera );
