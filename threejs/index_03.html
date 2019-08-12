@@ -24,8 +24,8 @@
 			import { PMREMGenerator } from './js/PMREMGenerator.js';
 			import { PMREMCubeUVPacker } from './js/PMREMCubeUVPacker.js';
 
-			var container, stats, controls;
-            var camera, scene, renderer;
+			let container, stats, controls;
+            let camera, scene, renderer;
             
             let mesh;
 
@@ -37,7 +37,7 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
-				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 400 );
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 2000 );
 				camera.position.set( - 7, 15, 7 );
 
 				scene = new THREE.Scene();
@@ -45,7 +45,7 @@
 				new RGBELoader()
 					.setDataType( THREE.UnsignedByteType )
 					.setPath( './textures/' )
-					.load( 'test_01.hdr', function ( texture ) {
+					.load( 'test_02.hdr', function ( texture ) {
 
 						var cubeGenerator = new EquirectangularToCubeGenerator( texture, { resolution: 1024 } );
 						cubeGenerator.update( renderer );
@@ -61,7 +61,7 @@
 						// model
 
 						var loader = new GLTFLoader().setPath( './models/' );
-						loader.load( 'cricket_08.gltf', function ( gltf ) {
+						loader.load( 'football_ball_01.gltf', function ( gltf ) {
 
 							gltf.scene.traverse( function ( child ) {
 
@@ -76,7 +76,8 @@
                             mesh = gltf.scene.children[0];
                             
                         
-                            scene.add(mesh);
+							scene.add(mesh);
+							console.log(gltf);
 
 
 						} );
@@ -132,31 +133,30 @@
             
             let onMouseMove = function( event ) {
 
-mouse.x = ( event.pageX / document.documentElement.clientWidth) * 2 - 1;
-mouse.y = - ( event.pageY / document.documentElement.clientHeight ) * 2 + 1;
+			mouse.x = ( event.pageX / document.documentElement.clientWidth) * 2 - 1;
+			mouse.y = - ( event.pageY / document.documentElement.clientHeight ) * 2 + 1;
 
-// mesh.rotation.y = mouse.x * 4
-// mesh.rotation.x = -mouse.y * 4
+			// mesh.rotation.y = mouse.x * 4
+			// mesh.rotation.x = -mouse.y * 4
 
-}
+			}
+
             let loop = function() {
-	requestAnimationFrame( loop );
+			requestAnimationFrame( loop );
 
-	dX = lerp(0.05, dX, mouse.x)
-	dY = lerp(0.05, dY, mouse.y)
+			dX = lerp(0.05, dX, mouse.x)
+			dY = lerp(0.05, dY, mouse.y)
 
-    mesh.rotation.x = -dY * 2;
-	mesh.rotation.y = dX * 2;
+    		mesh.rotation.x = -dY * 2;
+			mesh.rotation.y = dX * 2;
 
-        renderer.render( scene, camera );
-        stats.update();
-	}
+        	renderer.render( scene, camera );
+        	stats.update();
+			}
 
-	init();
+			init();
 
-	setTimeout(function () {
-		loop()
-	}, 100)
+			setTimeout(function () {loop()}, 100);
 
 		</script>
 
