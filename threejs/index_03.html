@@ -38,7 +38,7 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 2000 );
-				camera.position.set( 0, 0, -20 );
+				camera.position.set( 0, 0, 20 );
 
 				scene = new THREE.Scene();
 
@@ -147,7 +147,7 @@
 			dX = lerp(0.05, dX, mouse.x)
 			dY = lerp(0.05, dY, mouse.y)
 
-    		mesh.rotation.x = dY * 2;
+    		mesh.rotation.x = -dY * 2;
 			mesh.rotation.y = dX * 2;
 
         	renderer.render( scene, camera );
